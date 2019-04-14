@@ -4,48 +4,42 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private Animator animator;
-    private Rigidbody2D enemyRigidBody;
-    public float m_Speed = 0.001f;
-    public bool attack = false;
-    
+    public LayerMask enemyMask;
+    public float speed = 1;
+    Rigidbody2D enemyRigidBody;
+    Transform enemyTransform;
+    float enemyWidth, enemyHeight;
+    Animator animator;
+    BoxCollider2D boxCollider;
+
     void Start()
     {
-        animator = GetComponent<Animator>();
-        enemyRigidBody = GetComponent<Rigidbody2D>();
-    }
-
-    void Update()
-    {
-        
+        enemyTransform = this.transform;
+        enemyRigidBody = this.GetComponent<Rigidbody2D>();
+        boxCollider = this.GetComponent<BoxCollider2D>();
+        SpriteRenderer enemySprite = this.GetComponent<SpriteRenderer>();
+        enemyWidth = enemySprite.bounds.extents.x;
+        enemyHeight = enemySprite.bounds.extents.y;
+        animator = this.GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (!attack)
+        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
+        Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
+        bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
+        Debug.DrawLine(lineCastPos, lineCastPos + enemyTransform.right.toVector2() * -0.2f);
+        bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos + enemyTransform.right.toVector2() * -0.2f, enemyMask);
+        
+        if (!isGrounded || isBlocked)
         {
-            animator.SetTrigger("Speed");
-            SetMovementSpeed(m_Speed);
+            Vector3 currRot = enemyTransform.eulerAngles;
+            currRot.y += 180;
+            enemyTransform.eulerAngles = currRot;
         }
-        else
-        {
-            SetMovementSpeed(0.0f);
-            animator.SetTrigger("Attack");
-        }
-          
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            attack = true;
-        }
-    }
-    void SetMovementSpeed(float speed)
-    {
-        Vector2 enemyVol = enemyRigidBody.velocity;
-        enemyVol.x = speed;
-        enemyRigidBody.velocity = -enemyVol;
+        Vector2 myVel = enemyRigidBody.velocity;
+        myVel.x = enemyTransform.right.x * speed;
+        enemyRigidBody.velocity = myVel;
+        animator.SetFloat("Speed", speed);
     }
 }
