@@ -14,6 +14,10 @@ public class PlayerMovement : MonoBehaviour
     private bool jump = false;
     private bool crouch = false;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -24,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
-            animator.SetBool("IsJumping", true);
         }
 
         if (Input.GetButtonDown("Crouch"))
