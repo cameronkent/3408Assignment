@@ -30996,7 +30996,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 998799326}
-  animator: {fileID: 998799327}
   runSpeed: 30
 --- !u!114 &998799326
 MonoBehaviour:
@@ -31171,7 +31170,7 @@ SpriteRenderer:
   m_SortingLayerID: 1534988001
   m_SortingLayer: 4
   m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 58385695d04c64049aa93245b640f709, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 92a144a482ed31a4c8c00eff747fe370, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
