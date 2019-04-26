@@ -10,17 +10,40 @@ public class EnemyMovement : MonoBehaviour
     Transform enemyTransform;
     float enemyWidth, enemyHeight;
     Animator animator;
-    BoxCollider2D boxCollider;
+    bool isAttacking;
 
     void Start()
     {
         enemyTransform = this.transform;
         enemyRigidBody = this.GetComponent<Rigidbody2D>();
-        boxCollider = this.GetComponent<BoxCollider2D>();
         SpriteRenderer enemySprite = this.GetComponent<SpriteRenderer>();
         enemyWidth = enemySprite.bounds.extents.x;
         enemyHeight = enemySprite.bounds.extents.y;
         animator = this.GetComponent<Animator>();
+        isAttacking = false;
+
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+       
+        Collider2D collider = col.collider;
+
+        if (col.gameObject.CompareTag("Floor") || col.gameObject.CompareTag("Enemy"))
+       {
+            Vector3 contactPoint = col.contacts[0].point;
+            Vector3 center = collider.bounds.center;
+
+            bool side = contactPoint.x > center.x;
+
+            if (side)
+            {
+                Debug.Log("side");
+                Vector3 currRot = enemyTransform.eulerAngles;
+                currRot.y += 180;
+                enemyTransform.eulerAngles = currRot;
+          }
+        }
     }
 
     void FixedUpdate()
@@ -28,18 +51,32 @@ public class EnemyMovement : MonoBehaviour
         Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
         Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
         bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-        Debug.DrawLine(lineCastPos, lineCastPos + enemyTransform.right.toVector2() * -0.2f);
-        bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos + enemyTransform.right.toVector2() * -0.2f, enemyMask);
-        
-        if (!isGrounded || isBlocked)
+      
+        if (!isGrounded)
         {
-            Vector3 currRot = enemyTransform.eulerAngles;
-            currRot.y += 180;
-            enemyTransform.eulerAngles = currRot;
+            Flip();
         }
+        Move();
+    }
+
+
+    void Move()
+    {
         Vector2 myVel = enemyRigidBody.velocity;
         myVel.x = enemyTransform.right.x * speed;
         enemyRigidBody.velocity = myVel;
         animator.SetFloat("Speed", speed);
+    }
+
+    void Flip()
+    {
+        Vector3 currRot = enemyTransform.eulerAngles;
+        currRot.y += 180;
+        enemyTransform.eulerAngles = currRot;
+    }
+
+    void Atack()
+    {
+        animator.SetBool("isAttaking", isAttacking);
     }
 }
