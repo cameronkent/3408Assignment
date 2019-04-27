@@ -6,11 +6,15 @@ public class EnemyMovement : MonoBehaviour
 {
     public LayerMask enemyMask;
     public float speed = 1;
-    Rigidbody2D enemyRigidBody;
-    Transform enemyTransform;
-    float enemyWidth, enemyHeight;
-    Animator animator;
-    bool isAttacking;
+    private Rigidbody2D enemyRigidBody;
+    private Transform enemyTransform;
+    private float enemyWidth, enemyHeight;
+    private Animator animator;
+    public bool isAttacking;
+    private bool canMove;
+    private Vector2 enemyVelocity;
+    private Transform target;
+    private GameObject player;
 
     void Start()
     {
@@ -21,16 +25,19 @@ public class EnemyMovement : MonoBehaviour
         enemyHeight = enemySprite.bounds.extents.y;
         animator = this.GetComponent<Animator>();
         isAttacking = false;
+        enemyVelocity = enemyRigidBody.velocity;
+        canMove = true;
+        player = GameObject.FindGameObjectWithTag("Player");
+        target = player.transform;
 
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
-       
         Collider2D collider = col.collider;
 
         if (col.gameObject.CompareTag("Floor") || col.gameObject.CompareTag("Enemy"))
-       {
+        {
             Vector3 contactPoint = col.contacts[0].point;
             Vector3 center = collider.bounds.center;
 
@@ -38,20 +45,37 @@ public class EnemyMovement : MonoBehaviour
 
             if (side)
             {
-                Debug.Log("side");
                 Vector3 currRot = enemyTransform.eulerAngles;
                 currRot.y += 180;
                 enemyTransform.eulerAngles = currRot;
-          }
+            }
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.tag == "Player")
+        {
+            isAttacking = true;
+            canMove = false;
+            Flip();
+            Attack();
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        isAttacking = false;
+        canMove = true;
+        Flip();
+        Attack();
     }
 
     void FixedUpdate()
     {
         Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
-        Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
         bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-      
+
         if (!isGrounded)
         {
             Flip();
@@ -59,15 +83,19 @@ public class EnemyMovement : MonoBehaviour
         Move();
     }
 
-
+    // Moves the enemy
     void Move()
     {
-        Vector2 myVel = enemyRigidBody.velocity;
-        myVel.x = enemyTransform.right.x * speed;
-        enemyRigidBody.velocity = myVel;
-        animator.SetFloat("Speed", speed);
+        if (canMove)
+        {
+            enemyVelocity.x = enemyTransform.right.x * speed;
+            enemyRigidBody.velocity = enemyVelocity;
+            speed = 1;
+            animator.SetFloat("Speed", speed);
+        }
     }
 
+    // Flips the enemy direction
     void Flip()
     {
         Vector3 currRot = enemyTransform.eulerAngles;
@@ -75,8 +103,24 @@ public class EnemyMovement : MonoBehaviour
         enemyTransform.eulerAngles = currRot;
     }
 
-    void Atack()
+    // Constraint enemy's x position and enable the attack animation
+    void Attack()
     {
-        animator.SetBool("isAttaking", isAttacking);
+        //if (player.health > 0)
+        if (isAttacking)
+        {
+            enemyRigidBody.constraints = RigidbodyConstraints2D.FreezePositionX;
+        }
+        else
+        {
+            enemyRigidBody.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezePositionY;
+        }
+       
+        animator.SetBool("Attack", isAttacking);
     }
+    
+    /* Checks if the player is in range then enable the running animation
+    void InRange()
+    {
+    }*/
 }
