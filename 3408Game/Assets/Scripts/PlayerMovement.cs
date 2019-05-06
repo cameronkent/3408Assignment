@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController2D controller;
     public Animator animator;
 
+    private Rigidbody2D rigidbody;
+
     public float runSpeed = 30f;
     float horizontalMove = 0f;
     bool jump = false;
@@ -14,7 +16,11 @@ public class PlayerMovement : MonoBehaviour
     bool isArmed = false;
     int attack = 1;
 
-    private void Update()
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
+        private void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -23,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
             animator.SetBool("IsJumping", true);
+            animator.SetFloat("vSpeed", rigidbody.velocity.y);
+
         }
 
         if (Input.GetButtonDown("Crouch"))
