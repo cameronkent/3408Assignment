@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     bool isArmed = false;
+    int attack = 1;
 
     private void Update()
     {
@@ -46,6 +47,24 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (Input.GetButtonDown("Attack"))
+        {
+            Attack();
+
+        }
+
+    }
+
+    public void Attack()
+    {
+        animator.SetInteger("Attack", attack);
+        animator.SetTrigger("Attacking");
+        attack = attack + 1;
+    }
+
+    public void EndAttack()
+    {
+        attack = 1;
     }
 
     public void OnLanding()
