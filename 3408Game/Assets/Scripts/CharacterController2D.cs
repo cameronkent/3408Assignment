@@ -44,6 +44,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void FixedUpdate()
     {
+        animator.SetBool("IsGrounded", m_Grounded);
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
@@ -59,6 +60,7 @@ public class CharacterController2D : MonoBehaviour
                     OnLandEvent.Invoke();
             }
         }
+        animator.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
     }
 
 

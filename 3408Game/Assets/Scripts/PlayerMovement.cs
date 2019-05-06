@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
     }
+
         private void Update()
     {
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -29,18 +30,19 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
             animator.SetBool("IsJumping", true);
-            animator.SetFloat("vSpeed", rigidbody.velocity.y);
 
         }
 
         if (Input.GetButtonDown("Crouch"))
         {
             crouch = true;
+            animator.SetBool("IsCrouching", true);
         } else if (Input.GetButtonUp("Crouch"))
         {
             crouch = false;
+            animator.SetBool("IsCrouching", false);
         }
-        
+
         if (Input.GetButtonDown("Sheath")) 
         {
             if (!isArmed)
