@@ -13,7 +13,7 @@ public class EnemyMovement : MonoBehaviour
     public bool isAttacking;
     private bool canMove;
     private Vector2 enemyVelocity;
-    private Transform target;
+    //private Transform target;
     private GameObject player;
 
     void Start()
@@ -28,7 +28,7 @@ public class EnemyMovement : MonoBehaviour
         enemyVelocity = enemyRigidBody.velocity;
         canMove = true;
         player = GameObject.FindGameObjectWithTag("Player");
-        target = player.transform;
+        //target = player.transform;
 
     }
 
