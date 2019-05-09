@@ -148,4 +148,16 @@ public class CharacterController2D : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+
+    public void OnHurt(Damager damager, Damageable damageable)
+    {
+        animator.SetTrigger("IsHurt");
+
+        //play hurt audio
+    }
+
+    public void OnDie()
+    {
+        animator.SetBool("IsDead", true);
+    }
 }
