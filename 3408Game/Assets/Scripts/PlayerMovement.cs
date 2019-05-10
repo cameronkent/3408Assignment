@@ -15,9 +15,11 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     public float runSpeed = 30f;
+    float climbSpeed = 20f;
     float horizontalMove = 0f;
     float inputVertical;
-    bool isClimbing;
+    public bool onLadder = false;
+    bool isClimbing = false;
     bool jump = false;
     bool crouch = false;
     bool isArmed = false;
@@ -98,37 +100,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, whatIsLadder);
+
         if (canMove == true)
         {
-            controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-
-            RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, whatIsLadder);
-
-            if (hitInfo.collider != null)
+            if (onLadder)
             {
                 if (Input.GetButtonDown("Climb"))
                 {
                     isClimbing = true;
-                    animator.SetBool("IsClimbing", true);
+                    animator.SetTrigger("IsClimbing");
+                    animator.Play("Player_Ladder_Climb");
+                    inputVertical = Input.GetAxisRaw("Vertical") * climbSpeed;
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, inputVertical);
+                    rigidbody.gravityScale = 0;
+                }
+                else
+                {
+                    isClimbing = false;
+                    rigidbody.gravityScale = 1;
                 }
             }
-            else
-            {
-                isClimbing = false;
-                animator.SetBool("IsClimbing", false);
-            }
-
-            if (isClimbing == true)
-            {
-                inputVertical = Input.GetAxisRaw("Vertical");
-                rigidbody.velocity = new Vector2(rigidbody.velocity.x, inputVertical * runSpeed);
-                rigidbody.gravityScale = 0;
-            }
-            else
-            {
-                rigidbody.gravityScale = 1;
-            }
-
         }
+
     }
+
 }

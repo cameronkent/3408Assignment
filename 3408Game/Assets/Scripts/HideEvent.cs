@@ -7,7 +7,7 @@ public class HideEvent : MonoBehaviour
     public Animator animator;
     public SpriteRenderer spriteRenderer;
     PlayerMovement playerMovement;
-    bool canHide;
+    bool canHide = false;
     bool isHiding = false;
 
     private void Awake()
@@ -27,12 +27,8 @@ public class HideEvent : MonoBehaviour
         canHide = false;
     }
 
-    public bool GetCanHide()
-    {
-        return canHide;
-    }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (canHide == true && (Input.GetButtonDown("Hide")))
         {
@@ -48,6 +44,7 @@ public class HideEvent : MonoBehaviour
             else if (isHiding == true)
             {
                 animator.Play("Player_Hide");
+                StartCoroutine(Wait());
                 spriteRenderer.enabled = false;
                 isHiding = false;
                 animator.SetTrigger("ChangeHiding");
