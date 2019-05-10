@@ -6,10 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
     public Animator animator;
+    public HideEvent hideEvent;
     public float distance;
     public LayerMask whatIsLadder;
 
     private Rigidbody2D rigidbody;
+
+    public bool canMove = true;
 
     public float runSpeed = 30f;
     float horizontalMove = 0f;
@@ -27,43 +30,49 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-
-        if (Input.GetButtonDown("Jump"))
+        if (canMove == true)
         {
-            jump = true;
-            animator.SetBool("IsJumping", true);
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+            animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
-        }
-
-        if (Input.GetButtonDown("Crouch"))
-        {
-            crouch = true;
-            animator.SetBool("IsCrouching", true);
-        } else if (Input.GetButtonUp("Crouch"))
-        {
-            crouch = false;
-            animator.SetBool("IsCrouching", false);
-        }
-
-        if (Input.GetButtonDown("Sheath")) 
-        {
-            if (!isArmed)
+            if (Input.GetButtonDown("Jump"))
             {
-                isArmed = true;
-                animator.SetBool("IsArmed", true);
-            } else
-            {
-                isArmed = false;
-                animator.SetBool("IsArmed", false);
+                jump = true;
+                animator.SetBool("IsJumping", true);
 
             }
-        }
 
-        if (Input.GetButtonDown("Attack"))
-        {
-            Attack();
+            if (Input.GetButtonDown("Crouch"))
+            {
+                crouch = true;
+                animator.SetBool("IsCrouching", true);
+            }
+            else if (Input.GetButtonUp("Crouch"))
+            {
+                crouch = false;
+                animator.SetBool("IsCrouching", false);
+            }
+
+            if (Input.GetButtonDown("Sheath"))
+            {
+                if (!isArmed)
+                {
+                    isArmed = true;
+                    animator.SetBool("IsArmed", true);
+                }
+                else
+                {
+                    isArmed = false;
+                    animator.SetBool("IsArmed", false);
+
+                }
+            }
+
+            if (Input.GetButtonDown("Attack"))
+            {
+                Attack();
+
+            }
 
         }
 
@@ -89,31 +98,37 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, whatIsLadder);
-
-        if (hitInfo.collider != null)
+        if (canMove == true)
         {
-            if(Input.GetButtonDown("Climb"))
+            controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+
+            RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, whatIsLadder);
+
+            if (hitInfo.collider != null)
             {
-                isClimbing = true;
-                animator.SetBool("IsClimbing", true);
+                if (Input.GetButtonDown("Climb"))
+                {
+                    isClimbing = true;
+                    animator.SetBool("IsClimbing", true);
+                }
             }
-        } else
-        {
-            isClimbing = false;
-            animator.SetBool("IsClimbing", false);
-        }
+            else
+            {
+                isClimbing = false;
+                animator.SetBool("IsClimbing", false);
+            }
 
-        if (isClimbing == true)
-        {
-            inputVertical = Input.GetAxisRaw("Vertical");
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, inputVertical * runSpeed);
-            rigidbody.gravityScale = 0;
-        } else
-        {
-            rigidbody.gravityScale = 1;
+            if (isClimbing == true)
+            {
+                inputVertical = Input.GetAxisRaw("Vertical");
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, inputVertical * runSpeed);
+                rigidbody.gravityScale = 0;
+            }
+            else
+            {
+                rigidbody.gravityScale = 1;
+            }
+
         }
     }
 }
