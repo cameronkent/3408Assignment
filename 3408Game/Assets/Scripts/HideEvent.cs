@@ -40,6 +40,7 @@ public class HideEvent : MonoBehaviour
                 isHiding = true;
                 animator.SetBool("IsHiding", true);
                 playerMovement.canMove = false;
+                playerMovement.isHidden = true;
             }
             else if (isHiding == true)
             {
@@ -49,6 +50,7 @@ public class HideEvent : MonoBehaviour
                 isHiding = false;
                 animator.SetTrigger("ChangeHiding");
                 playerMovement.canMove = true;
+                playerMovement.isHidden = false;
             }
         }
     }

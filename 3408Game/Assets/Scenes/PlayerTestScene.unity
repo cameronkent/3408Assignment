@@ -39450,7 +39450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969844904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.14, z: -2.296}
+  m_LocalPosition: {x: -0.56, y: -2.39, z: -2.296}
   m_LocalScale: {x: 3.4, y: 3.4, z: 3}
   m_Children:
   - {fileID: 696224149}
@@ -39510,6 +39510,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   canMove: 1
+  isHidden: 0
   runSpeed: 30
   onLadder: 0
 --- !u!114 &1969844913
@@ -39560,7 +39561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 5
   invulnerableAfterDamage: 1
-  invulnerabilityDuration: 3
+  invulnerabilityDuration: 0.5
   disableOnDeath: 0
   centreOffset: {x: 0, y: 1}
   OnHealthSet:

@@ -154,10 +154,12 @@ public class CharacterController2D : MonoBehaviour
         animator.SetTrigger("IsHurt");
 
         //play hurt audio
+        //take away the health
     }
 
     public void OnDie()
     {
         animator.SetBool("IsDead", true);
+        // :(
     }
 }

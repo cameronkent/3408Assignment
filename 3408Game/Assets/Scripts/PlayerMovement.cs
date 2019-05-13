@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidbody;
 
     public bool canMove = true;
+    public bool isHidden = false;
 
     public float runSpeed = 30f;
     float climbSpeed = 20f;
