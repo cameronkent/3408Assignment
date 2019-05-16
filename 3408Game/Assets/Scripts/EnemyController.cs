@@ -117,8 +117,17 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("Attack", isAttacking);
     }
 
-    void onHurt()
+    public void OnHurt(Damager damager, Damageable damageable)
     {
-        enemyHealth -= 1;
+        animator.SetTrigger("IsHurt");
+
+        //play hurt audio
+        //take away the health
+    }
+
+    public void OnDie(Damager damager, Damageable damageable)
+    {
+        animator.SetBool("IsDead", true);
+        // :(
     }
 }
