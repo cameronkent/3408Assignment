@@ -6,7 +6,7 @@ public class LadderEvent : MonoBehaviour
 {
     public Animator animator;
     PlayerMovement playerMovement;
-    bool canClimb = false;
+    bool canClimb;
     bool isClimbing = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
