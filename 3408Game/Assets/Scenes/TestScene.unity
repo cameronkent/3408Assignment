@@ -141,6 +141,12 @@ TilemapCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
+--- !u!1 &209405385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5193744161271401195, guid: 8ed5344579d0bae4a9adcc8b4067819b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1774320708}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &428682725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7830048660679155853, guid: 7665f6ec20e9bbb4b89697245bc728f4,
@@ -267,6 +273,123 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &543241024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5006849255293423292, guid: 88f24a3491575d74ab792f0ed7cbb924,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121411001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &543241025 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2144122918, guid: 88f24a3491575d74ab792f0ed7cbb924,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121411001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543241024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb0f7def2952fa41925544803f87ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &543241030 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5006849255293423294, guid: 88f24a3491575d74ab792f0ed7cbb924,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121411001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &543241032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543241024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6bd153856bf854aa76a20dfd36a38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  offset: {x: 1.5, y: 1}
+  size: {x: 2.5, y: 1}
+  offsetBasedOnSpriteFacing: 1
+  spriteRenderer: {fileID: 543241030}
+  canHitTriggers: 0
+  disableDamageAfterHit: 0
+  forceRespawn: 0
+  ignoreInvincibility: 0
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  OnDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+DamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnNonDamageableEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+NonDamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &543241033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543241024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25af1eecb0464b345a1af3062c366044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 0
+  invulnerableAfterDamage: 1
+  invulnerabilityDuration: 0.5
+  disableOnDeath: 0
+  centreOffset: {x: 0, y: 1}
+  OnHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealthEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 543241025}
+        m_MethodName: OnHurt
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 543241025}
+        m_MethodName: OnDie
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnGainHealth:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1001 &739243107
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,6 +401,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830048661463392650, guid: 7665f6ec20e9bbb4b89697245bc728f4,
+        type: 3}
+      propertyPath: m_TagString
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 7830048660679155891, guid: 7665f6ec20e9bbb4b89697245bc728f4,
         type: 3}
@@ -30643,11 +30771,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7830048661463392650, guid: 7665f6ec20e9bbb4b89697245bc728f4,
-        type: 3}
-      propertyPath: m_TagString
-      value: Floor
-      objectReference: {fileID: 0}
     - target: {fileID: 7830048661597455194, guid: 7665f6ec20e9bbb4b89697245bc728f4,
         type: 3}
       propertyPath: m_IsActive
@@ -30731,11 +30854,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7023290373901112371, guid: dd89449ad6667144a9bd90a024f48c77,
-        type: 3}
-      propertyPath: m_Mass
-      value: 0.34497067
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd89449ad6667144a9bd90a024f48c77, type: 3}
@@ -30996,11 +31114,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior
       objectReference: {fileID: 0}
-    - target: {fileID: 8422681736139624673, guid: a9dbaa9ee2f8e24488955c98399eb8f0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8422681736139624682, guid: a9dbaa9ee2f8e24488955c98399eb8f0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31055,11 +31168,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8422681736139624684, guid: a9dbaa9ee2f8e24488955c98399eb8f0,
-        type: 3}
-      propertyPath: m_Mass
-      value: 0.30819017
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9dbaa9ee2f8e24488955c98399eb8f0, type: 3}
@@ -31266,6 +31374,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1741812626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8422681736139624673, guid: a9dbaa9ee2f8e24488955c98399eb8f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1259246608}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1741812634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741812626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6bd153856bf854aa76a20dfd36a38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  offset: {x: 1.5, y: 1}
+  size: {x: 2.5, y: 1}
+  offsetBasedOnSpriteFacing: 1
+  spriteRenderer: {fileID: 0}
+  canHitTriggers: 0
+  disableDamageAfterHit: 0
+  forceRespawn: 0
+  ignoreInvincibility: 0
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  OnDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+DamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnNonDamageableEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+NonDamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &1741812635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741812626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25af1eecb0464b345a1af3062c366044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 0
+  invulnerableAfterDamage: 1
+  invulnerabilityDuration: 3
+  disableOnDeath: 0
+  centreOffset: {x: 0, y: 1}
+  OnHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealthEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnGainHealth:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1001 &1774320708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31281,7 +31466,7 @@ PrefabInstance:
     - target: {fileID: 5193744161271401195, guid: 8ed5344579d0bae4a9adcc8b4067819b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5193744161271401198, guid: 8ed5344579d0bae4a9adcc8b4067819b,
         type: 3}
@@ -31340,6 +31525,83 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ed5344579d0bae4a9adcc8b4067819b, type: 3}
+--- !u!1 &1826577645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7023290373901112392, guid: dd89449ad6667144a9bd90a024f48c77,
+    type: 3}
+  m_PrefabInstance: {fileID: 923003985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1826577653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826577645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb6bd153856bf854aa76a20dfd36a38c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  offset: {x: 1.5, y: 1}
+  size: {x: 2.5, y: 1}
+  offsetBasedOnSpriteFacing: 1
+  spriteRenderer: {fileID: 0}
+  canHitTriggers: 0
+  disableDamageAfterHit: 0
+  forceRespawn: 0
+  ignoreInvincibility: 0
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  OnDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+DamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnNonDamageableEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damager+NonDamagableEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &1826577654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826577645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25af1eecb0464b345a1af3062c366044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 3
+  invulnerableAfterDamage: 1
+  invulnerabilityDuration: 3
+  disableOnDeath: 0
+  centreOffset: {x: 0, y: 1}
+  OnHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealthEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  OnGainHealth:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Damageable+HealEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &1979149767
 GameObject:
   m_ObjectHideFlags: 0
@@ -31405,11 +31667,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Viking
       objectReference: {fileID: 0}
-    - target: {fileID: 5006849255293423292, guid: 88f24a3491575d74ab792f0ed7cbb924,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5006849255293423265, guid: 88f24a3491575d74ab792f0ed7cbb924,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31465,19 +31722,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5006849255293423266, guid: 88f24a3491575d74ab792f0ed7cbb924,
-        type: 3}
-      propertyPath: m_Mass
-      value: 0.30819017
-      objectReference: {fileID: 0}
-    - target: {fileID: 5006849255293423264, guid: 88f24a3491575d74ab792f0ed7cbb924,
-        type: 3}
-      propertyPath: m_Material
+    - target: {fileID: 2144122918, guid: 88f24a3491575d74ab792f0ed7cbb924, type: 3}
+      propertyPath: player
       value: 
-      objectReference: {fileID: 6200000, guid: b28a092f73d433245b74cb0f88b6a8de, type: 2}
-    - target: {fileID: 2144122917, guid: 88f24a3491575d74ab792f0ed7cbb924, type: 3}
-      propertyPath: m_Density
-      value: 0
+      objectReference: {fileID: 209405385}
+    - target: {fileID: 2144122918, guid: 88f24a3491575d74ab792f0ed7cbb924, type: 3}
+      propertyPath: enemyHealth
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88f24a3491575d74ab792f0ed7cbb924, type: 3}
