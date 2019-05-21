@@ -35,7 +35,7 @@ public class Damageable : MonoBehaviour
 
     public int CurrentHealth
     {
-        get { return m_CurrentHealth; }
+        get {return m_CurrentHealth; }
     }
 
     private void OnEnable()

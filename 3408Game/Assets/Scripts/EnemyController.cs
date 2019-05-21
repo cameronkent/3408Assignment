@@ -14,7 +14,10 @@ public class EnemyController : MonoBehaviour
     private bool canMove;
     private Vector2 enemyVelocity;
     public GameObject player;
-    public int enemyHealth;
+    public Damageable playerDamageableScript;
+    public Damager playerDamagerScript;
+    private bool isDead;
+    private int enemyHealth = 3; 
 
     void Start()
     {
@@ -27,7 +30,25 @@ public class EnemyController : MonoBehaviour
         isAttacking = false;
         enemyVelocity = enemyRigidBody.velocity;
         canMove = true;
-        player = this.GetComponent<GameObject>();
+        isDead = false;
+        playerDamageableScript = (Damageable)player.GetComponent(typeof(Damageable));
+        playerDamagerScript = (Damager)player.GetComponent(typeof(Damager)); 
+        
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
+        bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
+
+        if (!isGrounded)
+        {
+            Flip();
+        }
+        if (!isDead)
+        {
+            Move();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -69,17 +90,7 @@ public class EnemyController : MonoBehaviour
         Attack();
     }
 
-    void FixedUpdate()
-    {
-        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
-        bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-
-        if (!isGrounded)
-        {
-            Flip();
-        }
-        Move();
-    }
+   
 
     // Moves the enemy
     void Move()
@@ -104,22 +115,25 @@ public class EnemyController : MonoBehaviour
     // Constraint enemy's x position and enable the attack animation
     void Attack()
     {
-        //if (player.health > 0)
-        if (isAttacking)
+        if (playerDamageableScript.CurrentHealth > 0)
         {
-            enemyRigidBody.constraints = RigidbodyConstraints2D.FreezePositionX;
+            if (isAttacking)
+            {
+                enemyRigidBody.constraints = RigidbodyConstraints2D.FreezePositionX;
+            }
+            else
+            {
+                enemyRigidBody.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezePositionY;
+            }
+
+            animator.SetBool("Attack", isAttacking);
         }
-        else
-        {
-            enemyRigidBody.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezePositionY;
-        }
-       
-        animator.SetBool("Attack", isAttacking);
     }
 
     public void OnHurt(Damager damager, Damageable damageable)
     {
         animator.SetTrigger("IsHurt");
+        damageable.TakeDamage(playerDamagerScript, false);
 
         //play hurt audio
         //take away the health
@@ -127,7 +141,8 @@ public class EnemyController : MonoBehaviour
 
     public void OnDie(Damager damager, Damageable damageable)
     {
-        animator.SetBool("IsDead", true);
+        isDead = true;
+        animator.SetBool("IsDead", isDead);
         // :(
     }
 }
