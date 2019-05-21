@@ -10,12 +10,14 @@ public class EnemyController : MonoBehaviour
     private Transform enemyTransform;
     private float enemyWidth, enemyHeight;
     private Animator animator;
+    public Animation animation;
     public bool isAttacking;
     private bool canMove;
     private Vector2 enemyVelocity;
     public GameObject player;
-    public Damageable playerDamageableScript;
-    public Damager playerDamagerScript;
+    private Damageable playerDamageableScript;
+    private Damager playerDamagerScript;
+    private PlayerMovement playerMovementScript;
     private bool isDead;
     private int enemyHealth = 3; 
 
@@ -27,13 +29,14 @@ public class EnemyController : MonoBehaviour
         enemyWidth = enemySprite.bounds.extents.x;
         enemyHeight = enemySprite.bounds.extents.y;
         animator = this.GetComponent<Animator>();
+        animation = GetComponent<Animation>();
         isAttacking = false;
         enemyVelocity = enemyRigidBody.velocity;
         canMove = true;
         isDead = false;
-        playerDamageableScript = (Damageable)player.GetComponent(typeof(Damageable));
-        playerDamagerScript = (Damager)player.GetComponent(typeof(Damager)); 
-        
+        playerDamageableScript = (Damageable) player.GetComponent(typeof(Damageable));
+        playerDamagerScript = (Damager) player.GetComponent(typeof(Damager));
+        playerMovementScript = (PlayerMovement)player.GetComponent(typeof(PlayerMovement));
     }
 
     void FixedUpdate()
@@ -75,10 +78,13 @@ public class EnemyController : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            isAttacking = true;
-            canMove = false;
-            Flip();
-            Attack();
+            if (!playerMovementScript.isHidden)
+            {
+                isAttacking = true;
+                canMove = false;
+                Flip();
+                Attack();
+            }
         }
     }
 
@@ -89,9 +95,7 @@ public class EnemyController : MonoBehaviour
         Flip();
         Attack();
     }
-
-   
-
+ 
     // Moves the enemy
     void Move()
     {
@@ -141,8 +145,17 @@ public class EnemyController : MonoBehaviour
 
     public void OnDie(Damager damager, Damageable damageable)
     {
+        canMove = false;
         isDead = true;
+        StartCoroutine(PlayAnimationAndDisappear());
         animator.SetBool("IsDead", isDead);
         // :(
+    }
+
+    IEnumerator PlayAnimationAndDisappear()
+    {
+        animator.SetBool("IsDead", isDead);
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        gameObject.SetActive(false); // deactivate object
     }
 }
