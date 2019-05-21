@@ -11,15 +11,18 @@ public class PlayerHealthUI : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
     public GameObject player;
+    private Damageable damageableScript;
     // Start is called before the first frame update
     void Start()
     {
-
+        damageableScript = (Damageable) player.GetComponent(typeof(Damageable));       
     }
 
     // Update is called once per frame
     void Update()
     {
+      
+        health = damageableScript.CurrentHealth;
         if (health > numOfHearts)
         {
             health = numOfHearts;
