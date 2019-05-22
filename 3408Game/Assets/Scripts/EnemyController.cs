@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
     private PlayerMovement playerMovementScript;
     private bool isDead;
     private int enemyHealth = 3;
+    private bool facingRight;
+ 
 
     void Start()
     {
@@ -35,16 +37,17 @@ public class EnemyController : MonoBehaviour
         playerDamageableScript = (Damageable)player.GetComponent(typeof(Damageable));
         playerDamagerScript = (Damager)player.GetComponent(typeof(Damager));
         playerMovementScript = (PlayerMovement)player.GetComponent(typeof(PlayerMovement));
+        facingRight = true;
     }
 
     void FixedUpdate()
     {
         Physics2D.IgnoreLayerCollision(9,12);
-        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right - new Vector3 (0.3f, 0.3f,0.0f);
-        //Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
+        Vector2 lineCastPos = enemyTransform.position + ((enemyTransform.right  *0.5f) -new Vector3(0.0f, 0.3f, 0.0f));
+        Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
         bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-        //Debug.DrawLine(lineCastPos, lineCastPos - enemyTransform.right.toVector2()*0.2f);
-        bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos - enemyTransform.right.toVector2() * .02f, enemyMask);
+        Debug.DrawLine(lineCastPos, lineCastPos - enemyTransform.right.toVector2()*0.2f);
+        bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos - enemyTransform.right.toVector2() * 0.2f, enemyMask);
         if (!isGrounded || isBlocked)
         {
             Flip();
@@ -62,10 +65,17 @@ public class EnemyController : MonoBehaviour
         {
             if (!playerMovementScript.isHidden)
             {
+
+                if ((player.transform.position.x < enemyTransform.position.x) && facingRight)
+                {
+                    Flip();
+                }else if ((player.transform.position.x > enemyTransform.position.x) && !facingRight)
+                {
+                    Flip();
+                }
                 enemyRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
                 isAttacking = true;
                 canMove = false;
-                Flip();
                 Attack();
             }
         }
@@ -76,8 +86,6 @@ public class EnemyController : MonoBehaviour
         enemyRigidBody.constraints = RigidbodyConstraints2D.None;
         isAttacking = false;
         canMove = true;
-        Flip();
-        Attack();
     }
  
     // Moves the enemy
@@ -85,16 +93,26 @@ public class EnemyController : MonoBehaviour
     {
         if (canMove)
         {
-            enemyVelocity.x = enemyTransform.right.x * speed;
-            enemyRigidBody.velocity = enemyVelocity;
             speed = 1;
-            animator.SetFloat("Speed", speed);
         }
+        else
+        {
+            speed = 0;
+        }
+        enemyVelocity.x = enemyTransform.right.x * speed;
+        enemyRigidBody.velocity = enemyVelocity;
+        animator.SetFloat("Speed", speed);
     }
 
     // Flips the enemy direction
     void Flip()
     {
+        Debug.Log(facingRight);
+        if (facingRight)
+        {
+            facingRight = false;
+        }
+        else { facingRight = true; }
         Vector3 currRot = enemyTransform.eulerAngles;
         currRot.y += 180;
         enemyTransform.eulerAngles = currRot;
@@ -105,7 +123,8 @@ public class EnemyController : MonoBehaviour
     {
         if (playerDamageableScript.CurrentHealth > 0)
         {
-            animator.SetBool("Attack", isAttacking);
+            
+            animator.SetTrigger("IsAttacking");
         }
     }
 
