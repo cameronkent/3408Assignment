@@ -93,7 +93,7 @@ public class EnemyController : MonoBehaviour
         isAttacking = false;
         canMove = true;
         Flip();
-        Attack();
+        //Attack();
     }
  
     // Moves the enemy
