@@ -6,21 +6,17 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public Text textTime;
-    public float timeLeft = 30.0f;
+    public float time = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        textTime.text = ((int)timeLeft).ToString();
+        textTime.text = ((int)time).ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeLeft -= Time.deltaTime;
-        textTime.text = ((int)timeLeft).ToString();
-        if (timeLeft < 0)
-        {
-
-        }
+        time += Time.deltaTime;
+        textTime.text = ((int)time).ToString();
     }
 }
