@@ -6,20 +6,19 @@ public class EnemyController : MonoBehaviour
 {
     public LayerMask enemyMask;
     public float speed = 1;
+    public GameObject player;
     private Rigidbody2D enemyRigidBody;
     private Transform enemyTransform;
     private float enemyWidth, enemyHeight;
     private Animator animator;
-    public Animation animation;
-    public bool isAttacking;
+    private bool isAttacking;
     private bool canMove;
     private Vector2 enemyVelocity;
-    public GameObject player;
     private Damageable playerDamageableScript;
     private Damager playerDamagerScript;
     private PlayerMovement playerMovementScript;
     private bool isDead;
-    private int enemyHealth = 3; 
+    private int enemyHealth = 3;
 
     void Start()
     {
@@ -29,49 +28,32 @@ public class EnemyController : MonoBehaviour
         enemyWidth = enemySprite.bounds.extents.x;
         enemyHeight = enemySprite.bounds.extents.y;
         animator = this.GetComponent<Animator>();
-        animation = GetComponent<Animation>();
         isAttacking = false;
         enemyVelocity = enemyRigidBody.velocity;
         canMove = true;
         isDead = false;
-        playerDamageableScript = (Damageable) player.GetComponent(typeof(Damageable));
-        playerDamagerScript = (Damager) player.GetComponent(typeof(Damager));
+        playerDamageableScript = (Damageable)player.GetComponent(typeof(Damageable));
+        playerDamagerScript = (Damager)player.GetComponent(typeof(Damager));
         playerMovementScript = (PlayerMovement)player.GetComponent(typeof(PlayerMovement));
     }
 
     void FixedUpdate()
     {
-        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right * enemyWidth;
+        Physics2D.IgnoreLayerCollision(9,12);
+        Vector2 lineCastPos = enemyTransform.position + enemyTransform.right - new Vector3 (0.3f, 0.3f,0.0f);
+        //Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
         bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-
-        if (!isGrounded)
+        //Debug.DrawLine(lineCastPos, lineCastPos - enemyTransform.right.toVector2()*0.2f);
+        bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos - enemyTransform.right.toVector2() * .02f, enemyMask);
+        if (!isGrounded || isBlocked)
         {
             Flip();
         }
         if (!isDead)
         {
-            Move();
+           
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        Collider2D collider = col.collider;
-
-        if (col.gameObject.CompareTag("Floor") || col.gameObject.CompareTag("Enemy"))
-        {
-            Vector3 contactPoint = col.contacts[0].point;
-            Vector3 center = collider.bounds.center;
-
-            bool side = contactPoint.x > center.x;
-
-            if (side)
-            {
-                Vector3 currRot = enemyTransform.eulerAngles;
-                currRot.y += 180;
-                enemyTransform.eulerAngles = currRot;
-            }
-        }
+        Move();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -80,6 +62,7 @@ public class EnemyController : MonoBehaviour
         {
             if (!playerMovementScript.isHidden)
             {
+                enemyRigidBody.constraints = RigidbodyConstraints2D.FreezeAll;
                 isAttacking = true;
                 canMove = false;
                 Flip();
@@ -90,6 +73,7 @@ public class EnemyController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
+        enemyRigidBody.constraints = RigidbodyConstraints2D.None;
         isAttacking = false;
         canMove = true;
         Flip();
@@ -116,20 +100,11 @@ public class EnemyController : MonoBehaviour
         enemyTransform.eulerAngles = currRot;
     }
 
-    // Constraint enemy's x position and enable the attack animation
+    // Enable the attack animation
     void Attack()
     {
         if (playerDamageableScript.CurrentHealth > 0)
         {
-            if (isAttacking)
-            {
-                enemyRigidBody.constraints = RigidbodyConstraints2D.FreezePositionX;
-            }
-            else
-            {
-                enemyRigidBody.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezePositionY;
-            }
-
             animator.SetBool("Attack", isAttacking);
         }
     }
@@ -152,10 +127,11 @@ public class EnemyController : MonoBehaviour
         // :(
     }
 
+    // Waits a few seconds before disabling the enemy
     IEnumerator PlayAnimationAndDisappear()
     {
         animator.SetBool("IsDead", isDead);
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-        gameObject.SetActive(false); // deactivate object
+        gameObject.SetActive(false); 
     }
 }

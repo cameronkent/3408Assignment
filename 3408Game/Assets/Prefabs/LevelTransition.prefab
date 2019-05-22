@@ -238,6 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8495878029527297002}
-  sceneName: TestScene
+  sceneName: Prototyping_Level02
   levelComplete: 0
   uiCanvas: {fileID: 0}

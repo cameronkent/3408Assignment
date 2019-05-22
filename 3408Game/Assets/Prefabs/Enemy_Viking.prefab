@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 5006849255293423295}
   - component: {fileID: 5006849255293423266}
   - component: {fileID: 5006849255293423264}
-  - component: {fileID: 2144122917}
+  - component: {fileID: 6989645692390757213}
   - component: {fileID: 2144122918}
   - component: {fileID: 543241032}
   - component: {fileID: 543241033}
   m_Layer: 9
-  m_Name: Viking
+  m_Name: Enemy_Viking
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +63,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -125,7 +126,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!61 &5006849255293423264
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,8 +153,8 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.08634949, y: 0.19759735}
   m_EdgeRadius: 0
---- !u!58 &2144122917
-CircleCollider2D:
+--- !u!70 &6989645692390757213
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -165,9 +166,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.25
+  m_Offset: {x: 0.002779348, y: 0.01}
+  m_Size: {x: 0.69271815, y: 0.37678078}
+  m_Direction: 1
 --- !u!114 &2144122918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,9 +185,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 7479
   speed: 1
-  isAttacking: 0
   player: {fileID: 0}
-  enemyHealth: 5
 --- !u!114 &543241032
 MonoBehaviour:
   m_ObjectHideFlags: 0

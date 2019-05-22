@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        
         if (canMove == true)
         {
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
