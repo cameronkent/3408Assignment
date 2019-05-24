@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 8422681736139624683}
   - component: {fileID: 8422681736139624684}
   - component: {fileID: 8422681736139624686}
-  - component: {fileID: 384188142}
+  - component: {fileID: 7209995965573155832}
   - component: {fileID: 384188137}
   - component: {fileID: 1741812634}
   - component: {fileID: 1741812635}
   m_Layer: 9
-  m_Name: Warrior
+  m_Name: Enemy_Warrior
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,6 +63,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -125,7 +126,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!61 &8422681736139624686
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,22 +153,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.08634949, y: 0.19759735}
   m_EdgeRadius: 0
---- !u!58 &384188142
-CircleCollider2D:
+--- !u!70 &7209995965573155832
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422681736139624673}
   m_Enabled: 1
-  m_Density: 1
+  m_Density: 0
   m_Material: {fileID: 6200000, guid: b28a092f73d433245b74cb0f88b6a8de, type: 2}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.25
+  m_Offset: {x: 0.002779348, y: 0.01}
+  m_Size: {x: 0.69271815, y: 0.37678078}
+  m_Direction: 1
 --- !u!114 &384188137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +183,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyMask:
     serializedVersion: 2
-    m_Bits: 7479
+    m_Bits: 3383
   speed: 1
-  isAttacking: 0
   player: {fileID: 0}
-  enemyHealth: 0
 --- !u!114 &1741812634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422681736139624673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb6bd153856bf854aa76a20dfd36a38c, type: 3}
   m_Name: 
@@ -228,7 +227,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8422681736139624673}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25af1eecb0464b345a1af3062c366044, type: 3}
   m_Name: 
@@ -256,7 +255,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnDie:
@@ -272,7 +271,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: Damageable+DamageEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   OnGainHealth:
