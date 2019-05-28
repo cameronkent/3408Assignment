@@ -83,9 +83,10 @@ public class EnemyController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        enemyRigidBody.constraints = RigidbodyConstraints2D.None;
+       
         isAttacking = false;
         canMove = true;
+        Attack();
     }
  
     // Moves the enemy
@@ -93,12 +94,14 @@ public class EnemyController : MonoBehaviour
     {
         if (canMove)
         {
+            enemyRigidBody.constraints = RigidbodyConstraints2D.None;
             speed = 1;
         }
         else
         {
             speed = 0;
         }
+            
         enemyVelocity.x = enemyTransform.right.x * speed;
         enemyRigidBody.velocity = enemyVelocity;
         animator.SetFloat("Speed", speed);
@@ -106,8 +109,7 @@ public class EnemyController : MonoBehaviour
 
     // Flips the enemy direction
     void Flip()
-    {
-        Debug.Log(facingRight);
+    { 
         if (facingRight)
         {
             facingRight = false;
@@ -123,8 +125,8 @@ public class EnemyController : MonoBehaviour
     {
         if (playerDamageableScript.CurrentHealth > 0)
         {
-            
-            animator.SetTrigger("IsAttacking");
+
+            animator.SetBool("Attack", isAttacking);
         }
     }
 
